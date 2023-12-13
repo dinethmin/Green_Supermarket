@@ -5,6 +5,8 @@
  */
 package User;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author HP
@@ -60,7 +62,7 @@ public class User_Account extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(102, 255, 102));
         jLabel3.setText("Welcome User");
-        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 20, 270, 50));
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 20, 380, 50));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1030, 90));
 
@@ -69,17 +71,27 @@ public class User_Account extends javax.swing.JFrame {
 
         jButton3.setBackground(new java.awt.Color(204, 204, 204));
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton3.setText("Edite Profile");
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/user_dark.png"))); // NOI18N
+        jButton3.setText("    Edite Profile");
+        jButton3.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
         jPanel3.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 181, 30));
 
         jButton4.setBackground(new java.awt.Color(204, 204, 204));
         jButton4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton4.setText("View Cart");
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/purchase_dark.png"))); // NOI18N
+        jButton4.setText("     View Cart");
+        jButton4.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
         jPanel3.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 181, 30));
 
         jButton5.setBackground(new java.awt.Color(204, 204, 204));
         jButton5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton5.setText("Log Out");
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/User_Logout.png"))); // NOI18N
+        jButton5.setText("  Log Out");
+        jButton5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton5MouseClicked(evt);
+            }
+        });
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);
@@ -145,6 +157,14 @@ public class User_Account extends javax.swing.JFrame {
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
+        int a = JOptionPane.showConfirmDialog(this,"Do you want to logout now?","Logout",JOptionPane.YES_NO_OPTION);
+        if(a == 0){
+            //new Login().setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_jButton5MouseClicked
 
     /**
      * @param args the command line arguments
