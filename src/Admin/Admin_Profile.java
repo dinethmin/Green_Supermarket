@@ -45,7 +45,6 @@ public class Admin_Profile extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(750, 380));
         setMinimumSize(new java.awt.Dimension(750, 380));
         setUndecorated(true);
 

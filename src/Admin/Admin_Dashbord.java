@@ -5,6 +5,7 @@
  */
 package Admin;
 
+import User.Login;
 import javax.swing.JOptionPane;
 
 /**
@@ -39,9 +40,9 @@ public class Admin_Dashbord extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -127,6 +128,11 @@ public class Admin_Dashbord extends javax.swing.JFrame {
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/product_dark.png"))); // NOI18N
         jButton6.setText("Manage Products");
         jButton6.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
+        jButton6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton6MouseClicked(evt);
+            }
+        });
         jPanel3.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, 200, 30));
 
         jButton7.setBackground(new java.awt.Color(204, 204, 204));
@@ -134,28 +140,38 @@ public class Admin_Dashbord extends javax.swing.JFrame {
         jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/account_dark.png"))); // NOI18N
         jButton7.setText("     View Users");
         jButton7.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
+        jButton7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton7MouseClicked(evt);
+            }
+        });
         jPanel3.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, 200, 30));
-
-        jButton8.setBackground(new java.awt.Color(204, 204, 204));
-        jButton8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/edit_supplier_dark.png"))); // NOI18N
-        jButton8.setText("     Add Admin");
-        jButton8.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
-        jPanel3.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, 200, 30));
 
         jButton9.setBackground(new java.awt.Color(204, 204, 204));
         jButton9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/delivery_dark.png"))); // NOI18N
         jButton9.setText("    Assign Delivery");
         jButton9.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
-        jPanel3.add(jButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, 200, 30));
+        jPanel3.add(jButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, 200, 30));
 
         jButton10.setBackground(new java.awt.Color(204, 204, 204));
         jButton10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/supplier_dark.png"))); // NOI18N
-        jButton10.setText("Add Delivery Team");
+        jButton10.setText("  Manage Delivery");
         jButton10.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
+        jButton10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton10MouseClicked(evt);
+            }
+        });
         jPanel3.add(jButton10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 360, 200, 30));
+
+        jButton8.setBackground(new java.awt.Color(204, 204, 204));
+        jButton8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/edit_supplier_dark.png"))); // NOI18N
+        jButton8.setText("     Add Admin");
+        jButton8.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
+        jPanel3.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, 200, 30));
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 230, 550));
 
@@ -290,7 +306,7 @@ public class Admin_Dashbord extends javax.swing.JFrame {
     private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
         int a = JOptionPane.showConfirmDialog(this,"Do you want to logout now?","Logout",JOptionPane.YES_NO_OPTION);
         if(a == 0){
-            //new Login().setVisible(true);
+            new Login().setVisible(true);
             this.dispose();
         }
     }//GEN-LAST:event_jButton5MouseClicked
@@ -303,6 +319,21 @@ public class Admin_Dashbord extends javax.swing.JFrame {
         new Manage_Categories().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton4MouseClicked
+
+    private void jButton6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseClicked
+        new Manage_Products().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton6MouseClicked
+
+    private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked
+        new View_Users().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton7MouseClicked
+
+    private void jButton10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton10MouseClicked
+        new Add_Delivery_Team().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton10MouseClicked
 
     /**
      * @param args the command line arguments
