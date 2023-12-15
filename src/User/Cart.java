@@ -109,20 +109,21 @@ public class Cart extends javax.swing.JFrame {
         jButton3.setBackground(new java.awt.Color(204, 204, 204));
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton3.setText("Update Quantity");
-        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 590, 150, 30));
+        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 590, 150, 30));
 
         jButton4.setBackground(new java.awt.Color(204, 204, 204));
         jButton4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton4.setText("Purchase");
-        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 590, 140, 30));
+        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 590, 140, 30));
 
         jTextField2.setBackground(new java.awt.Color(204, 204, 204));
-        jPanel1.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 590, 80, 30));
+        jTextField2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jPanel1.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 590, 80, 30));
 
         jButton5.setBackground(new java.awt.Color(204, 204, 204));
         jButton5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton5.setText("Remove Item");
-        jPanel1.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 590, 140, 30));
+        jPanel1.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 590, 140, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
