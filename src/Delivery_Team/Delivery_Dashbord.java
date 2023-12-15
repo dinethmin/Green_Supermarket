@@ -76,6 +76,11 @@ public class Delivery_Dashbord extends javax.swing.JFrame {
         jButton3.setText("    Edite Profile");
         jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton3.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
+        jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton3MouseClicked(evt);
+            }
+        });
         jPanel3.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 181, 30));
 
         jButton4.setBackground(new java.awt.Color(204, 204, 204));
@@ -84,6 +89,11 @@ public class Delivery_Dashbord extends javax.swing.JFrame {
         jButton4.setText("     Deliveries");
         jButton4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton4.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
+        jButton4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton4MouseClicked(evt);
+            }
+        });
         jPanel3.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 181, 30));
 
         jButton5.setBackground(new java.awt.Color(204, 204, 204));
@@ -112,7 +122,7 @@ public class Delivery_Dashbord extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Purchase ID", "User ID", "User Name", "User Phone", "Product ID", "Product Name", "Quantity", "Price", "Total", "Order Date", "Address", "Delivary Date", "Delivery Name", "Status"
+                "Purchase ID", "User ID", "User Name", "User Phone", "Product ID", "Product Name", "Quantity", "Price", "Total", "Order Date", "Address", "Delivery Date", "Delivery Name", "Status"
             }
         ) {
             Class[] types = new Class [] {
@@ -185,6 +195,15 @@ public class Delivery_Dashbord extends javax.swing.JFrame {
             this.dispose();
         }
     }//GEN-LAST:event_jButton5MouseClicked
+
+    private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
+        new Delivery_Account().setVisible(true);
+    }//GEN-LAST:event_jButton3MouseClicked
+
+    private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
+        new Deliveries().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton4MouseClicked
 
     /**
      * @param args the command line arguments
