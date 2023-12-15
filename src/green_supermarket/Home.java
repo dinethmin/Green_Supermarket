@@ -5,6 +5,8 @@
  */
 package green_supermarket;
 
+import User.Login;
+
 /**
  *
  * @author HP
@@ -64,6 +66,11 @@ public class Home extends javax.swing.JFrame {
         jButton1.setText("Log In ");
         jButton1.setToolTipText("");
         jButton1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
         jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 20, 130, 50));
 
         jButton2.setBackground(new java.awt.Color(0, 102, 102));
@@ -125,7 +132,13 @@ public class Home extends javax.swing.JFrame {
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1030, 640));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        new Login().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton1MouseClicked
 
     /**
      * @param args the command line arguments

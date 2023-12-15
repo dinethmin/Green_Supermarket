@@ -152,6 +152,11 @@ public class Admin_Dashbord extends javax.swing.JFrame {
         jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/delivery_dark.png"))); // NOI18N
         jButton9.setText("    Assign Delivery");
         jButton9.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
+        jButton9.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton9MouseClicked(evt);
+            }
+        });
         jPanel3.add(jButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, 200, 30));
 
         jButton10.setBackground(new java.awt.Color(204, 204, 204));
@@ -171,6 +176,11 @@ public class Admin_Dashbord extends javax.swing.JFrame {
         jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/edit_supplier_dark.png"))); // NOI18N
         jButton8.setText("     Add Admin");
         jButton8.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
+        jButton8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton8MouseClicked(evt);
+            }
+        });
         jPanel3.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, 200, 30));
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 230, 550));
@@ -334,6 +344,16 @@ public class Admin_Dashbord extends javax.swing.JFrame {
         new Add_Delivery_Team().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton10MouseClicked
+
+    private void jButton8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton8MouseClicked
+        new Add_Admin().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton8MouseClicked
+
+    private void jButton9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton9MouseClicked
+        new Assign_Delivery().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton9MouseClicked
 
     /**
      * @param args the command line arguments
