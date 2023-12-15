@@ -5,6 +5,7 @@
  */
 package Delivery_Team;
 
+import User.Login;
 import javax.swing.JOptionPane;
 
 /**
@@ -180,7 +181,7 @@ public class Delivery_Dashbord extends javax.swing.JFrame {
     private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
         int a = JOptionPane.showConfirmDialog(this,"Do you want to logout now?","Logout",JOptionPane.YES_NO_OPTION);
         if(a == 0){
-            //new Login().setVisible(true);
+            new Login().setVisible(true);
             this.dispose();
         }
     }//GEN-LAST:event_jButton5MouseClicked
