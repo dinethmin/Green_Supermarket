@@ -5,6 +5,10 @@
  */
 package Admin;
 
+import Dao.UserDao;
+import java.awt.Color;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author HP
@@ -14,8 +18,11 @@ public class View_Users extends javax.swing.JFrame {
     /**
      * Creates new form View_Users
      */
+    UserDao user = new UserDao();
+    DefaultTableModel model;
     public View_Users() {
         initComponents();
+        userTable();
     }
 
     /**
@@ -79,14 +86,14 @@ public class View_Users extends javax.swing.JFrame {
 
             },
             new String [] {
-                "User ID", "UserName", "Password", "Email", "Phone No", "Security Questions", "Answer", "Address"
+                "User ID", "UserName", "Email", "Phone No", "Security Questions", "Answer", "Address", "Password"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Float.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, true, true
+                false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -98,11 +105,20 @@ public class View_Users extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(30);
+            jTable1.getColumnModel().getColumn(1).setPreferredWidth(50);
+            jTable1.getColumnModel().getColumn(4).setPreferredWidth(100);
+        }
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 1030, 490));
 
-        jTextField1.setText("Search");
         jTextField1.setToolTipText("");
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField1KeyReleased(evt);
+            }
+        });
         jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 110, 360, 30));
 
         jLabel2.setBackground(new java.awt.Color(0, 0, 0));
@@ -131,10 +147,24 @@ public class View_Users extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void userTable(){
+        user.getUserData(jTable1, "");
+        model = (DefaultTableModel) jTable1.getModel();
+        jTable1.setRowHeight(30);
+        jTable1.setShowGrid(true);
+        jTable1.setGridColor(Color.BLACK);
+        jTable1.setBackground(Color.WHITE);
+    }
+    
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         new Admin_Dashbord().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1MouseClicked
+
+    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
+        jTable1.setModel(new DefaultTableModel(null,new Object[]{"UserID", "UserName", "Email", "PhoneNo", "SecurityQuestion", "Answer", "Address", "Password"}));
+        user.getUserData(jTable1, jTextField1.getText());
+    }//GEN-LAST:event_jTextField1KeyReleased
 
     /**
      * @param args the command line arguments

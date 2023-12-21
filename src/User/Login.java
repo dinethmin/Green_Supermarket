@@ -8,7 +8,6 @@ package User;
 import Admin.Admin_Dashbord;
 import Connection.MyConnection;
 import Delivery_Team.Delivery_Dashbord;
-import green_supermarket.Home;
 import java.sql.Connection;
 import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
@@ -28,11 +27,12 @@ public class Login extends javax.swing.JFrame {
      * Creates new form Login
      */
     private ButtonGroup bg = new ButtonGroup();
-
+    
     public Login() {
         initComponents();
         init();
         jPasswordField1.setEchoChar('•');
+        
     }
 
     /**
@@ -216,6 +216,8 @@ public class Login extends javax.swing.JFrame {
         bg.add(jRadioButton3);
         jRadioButton1.setSelected(true);
     }
+    
+    
 
     private boolean isEmpty() {
         if (jTextField1.getText().isEmpty()) {
@@ -286,6 +288,7 @@ public class Login extends javax.swing.JFrame {
                         Delivery_Dashbord dd = new Delivery_Dashbord();
                         dd.setVisible(true); 
                         dd.pack();
+                        Delivery_Dashbord.deliveryWelcome.setText("Welcome "+UserName);
                         this.dispose();
                     } else {
                         JOptionPane.showMessageDialog(this, "Incorrect UserName or Password", "Login Faild", 2);
@@ -318,6 +321,7 @@ public class Login extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
         new SignUp().setVisible(true);
         this.dispose();
@@ -393,6 +397,6 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JRadioButton jRadioButton3;
-    private javax.swing.JTextField jTextField1;
+    public static javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

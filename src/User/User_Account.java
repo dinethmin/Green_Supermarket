@@ -5,6 +5,7 @@
  */
 package User;
 
+import Dao.UserDao;
 import green_supermarket.Home;
 import javax.swing.JOptionPane;
 
@@ -17,8 +18,14 @@ public class User_Account extends javax.swing.JFrame {
     /**
      * Creates new form User_Account
      */
+    
+    UserDao user = new UserDao();
+    
     public User_Account() {
         initComponents();
+        init();
+        
+        
     }
 
     /**
@@ -33,7 +40,7 @@ public class User_Account extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        userWelcome = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
@@ -62,10 +69,11 @@ public class User_Account extends javax.swing.JFrame {
         jLabel1.setToolTipText("");
         jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 90, 90));
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(102, 255, 102));
-        jLabel3.setText("Welcome User");
-        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 20, 380, 50));
+        userWelcome.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        userWelcome.setForeground(new java.awt.Color(102, 255, 102));
+        userWelcome.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        userWelcome.setText("Welcome User");
+        jPanel2.add(userWelcome, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 20, 430, 50));
 
         jButton2.setBackground(new java.awt.Color(0, 102, 102));
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -191,6 +199,10 @@ public class User_Account extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    public void init(){
+        userWelcome.setText("Welcome "+user.getUName());
+    }
+    
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton5ActionPerformed
@@ -265,11 +277,11 @@ public class User_Account extends javax.swing.JFrame {
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    public static javax.swing.JLabel userWelcome;
     // End of variables declaration//GEN-END:variables
 }

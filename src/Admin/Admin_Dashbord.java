@@ -5,6 +5,7 @@
  */
 package Admin;
 
+import Dao.AdminDao;
 import User.Login;
 import javax.swing.JOptionPane;
 
@@ -17,8 +18,11 @@ public class Admin_Dashbord extends javax.swing.JFrame {
     /**
      * Creates new form Admin_Dashbord
      */
+    AdminDao user = new AdminDao();
+    
     public Admin_Dashbord() {
         initComponents();
+        init();
     }
 
     /**
@@ -33,7 +37,7 @@ public class Admin_Dashbord extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        adminWelcome = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
@@ -73,10 +77,11 @@ public class Admin_Dashbord extends javax.swing.JFrame {
         jLabel1.setToolTipText("");
         jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 90, 90));
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(102, 255, 102));
-        jLabel3.setText("Welcome Admin");
-        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 20, 410, 50));
+        adminWelcome.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        adminWelcome.setForeground(new java.awt.Color(102, 255, 102));
+        adminWelcome.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        adminWelcome.setText("Welcome Admin");
+        jPanel2.add(adminWelcome, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 20, 500, 50));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1030, 90));
 
@@ -314,6 +319,10 @@ public class Admin_Dashbord extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    public void init(){
+        adminWelcome.setText("Welcome "+user.getUName());
+    }
+    
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton5ActionPerformed
@@ -400,6 +409,7 @@ public class Admin_Dashbord extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public static javax.swing.JLabel adminWelcome;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -416,7 +426,6 @@ public class Admin_Dashbord extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
