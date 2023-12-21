@@ -280,7 +280,6 @@ public class SignUp extends javax.swing.JFrame {
 
     private void init() {
         jTextField5.setBackground(notEdit);
-        jLabel14.setForeground(notEdit);
         jTextField5.setText(String.valueOf(user.getMaxRow()));
     }
 
@@ -347,15 +346,15 @@ public class SignUp extends javax.swing.JFrame {
             String Address = jTextField4.getText();
             String SecurityQuestion = jComboBox1.getSelectedItem().toString();
             String Answer = jTextField1.getText();
-            if(!user.isEmailExist(Email)){
-                if(!user.isPhoneNoExist(PhoneNo)){
+            if (!user.isEmailExist(Email)) {
+                if (!user.isPhoneNoExist(PhoneNo)) {
                     user.insert(UserID, UserName, Email, PhoneNo, SecurityQuestion, Answer, Address, Password);
                     new Login().setVisible(true);
                     this.dispose();
-                }else{
+                } else {
                     JOptionPane.showMessageDialog(this, "This PhoneNo is already exists", "Warning", 2);
                 }
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(this, "This Email address is already exists", "Warning", 2);
             }
 
@@ -411,14 +410,14 @@ public class SignUp extends javax.swing.JFrame {
         char input = evt.getKeyChar();
         if (!(input < '0' || input > '9') && input != '\b') {
             evt.consume();
-            JOptionPane.showMessageDialog(this, "UserName doesn't contain any numbers!","Warning",2);
+            JOptionPane.showMessageDialog(this, "UserName doesn't contain any numbers!", "Warning", 2);
 
         }
     }//GEN-LAST:event_jTextField3KeyTyped
 
     private void jTextField2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyTyped
         char input = evt.getKeyChar();
-        if(!Character.isDigit(evt.getKeyChar())){
+        if (!Character.isDigit(evt.getKeyChar())) {
             evt.consume();
         }
     }//GEN-LAST:event_jTextField2KeyTyped

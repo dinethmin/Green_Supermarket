@@ -5,6 +5,9 @@
  */
 package Delivery_Team;
 
+import Dao.DeliveryDao;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author HP
@@ -14,8 +17,13 @@ public class Delivery_Account extends javax.swing.JFrame {
     /**
      * Creates new form Delivery_Account
      */
+    DeliveryDao delivery = new DeliveryDao();
+    String[] value = new String[5];
+    private int DeliveryID;
+    
     public Delivery_Account() {
         initComponents();
+        init();
         jPasswordField1.setEchoChar('•');
     }
 
@@ -100,11 +108,21 @@ public class Delivery_Account extends javax.swing.JFrame {
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jButton1.setText("Delete");
         jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 290, 160, 40));
 
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jButton2.setText("Update");
         jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 290, 160, 40));
 
         jPasswordField1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -158,6 +176,53 @@ public class Delivery_Account extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void init(){
+        setLocation(410,250);
+        DeliveryID = delivery.getDeliveryID(delivery.getUName());
+        value = delivery.getDeliveryValue(DeliveryID);
+        setValue();   
+    }
+    
+    private void setValue(){
+        jTextField2.setText(value[0]);
+        jTextField3.setText(value[1]);
+        jTextField1.setText(value[2]);
+        jTextField5.setText(value[3]);
+        jPasswordField1.setText(value[4]);
+    }
+    
+    public boolean isEmpty() {
+        if (jTextField3.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Username is requierd", "Warning", 2);
+            return false;
+        }
+        if (jTextField1.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Email address is requierd", "Warning", 2);
+            return false;
+        }
+        if (!jTextField1.getText().matches("^.+@.+\\..+$")) {
+            JOptionPane.showMessageDialog(this, "Invalid Email address", "Warning", 2);
+            return false;
+        }
+        if (String.valueOf(jPasswordField1.getPassword()).isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Password is required", "Warning", 2);
+            return false;
+        }
+        if (jTextField5.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Phone no is requierd", "Warning", 2);
+            return false;
+        }
+        if (jTextField5.getText().length() < 10) {
+            JOptionPane.showMessageDialog(this, "Phone no is too short", "Warning", 2);
+            return false;
+        }
+        if (jTextField5.getText().length() > 10) {
+            JOptionPane.showMessageDialog(this, "Phone no is too long", "Warning", 2);
+            return false;
+        }
+        return true;
+    }
+    
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
@@ -182,6 +247,48 @@ public class Delivery_Account extends javax.swing.JFrame {
         jLabel9.setVisible(false);
     }//GEN-LAST:event_jLabel9MouseClicked
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        if(isEmpty()){
+            if(!check()){
+            int dID = Integer.parseInt(jTextField2.getText());
+            String UserName = jTextField3.getText();
+            String Email = jTextField1.getText();
+            String Password = String.valueOf(jPasswordField1.getPassword());
+            String PhoneNo = jTextField5.getText();
+            delivery.update(dID, UserName, Email, PhoneNo, Password);
+            this.dispose();
+            }
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        delivery.delete(DeliveryID);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private boolean check(){
+        String newEmail = jTextField1.getText();
+        String newPhoneNo = jTextField5.getText();
+        if(newEmail.equals(value[2]) && newPhoneNo.equals(value[3])){
+            return false;
+        }else{
+            if(!newEmail.equals(value[2])){
+                boolean x = delivery.isEmailExist(newEmail);
+                if(x){
+                    JOptionPane.showMessageDialog(this, "This Email address already exists","Warning",2);
+                }
+                return x;
+            }
+            if(!newPhoneNo.equals(value[3])){
+                boolean x = delivery.isPhoneNoExist(newPhoneNo);
+                if(x){
+                    JOptionPane.showMessageDialog(this, "This PhoneNo already exists","Warning",2);
+                }
+                return x;
+            }
+        }
+        return false;
+    }
+    
     /**
      * @param args the command line arguments
      */
