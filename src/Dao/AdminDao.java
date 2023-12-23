@@ -182,7 +182,6 @@ public class AdminDao {
         } catch (SQLException ex) {
             Logger.getLogger(AdminDao.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
 }
