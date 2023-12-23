@@ -416,7 +416,6 @@ public class SignUp extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField3KeyTyped
 
     private void jTextField2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyTyped
-        char input = evt.getKeyChar();
         if (!Character.isDigit(evt.getKeyChar())) {
             evt.consume();
         }
