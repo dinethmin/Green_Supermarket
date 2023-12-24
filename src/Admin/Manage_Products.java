@@ -34,7 +34,8 @@ public class Manage_Products extends javax.swing.JFrame {
     int rowIndex;
     String[] Categories;
     File file = null;
-
+    int a = 30;
+    
     public Manage_Products() {
         initComponents();
         init();
@@ -189,6 +190,7 @@ public class Manage_Products extends javax.swing.JFrame {
         jPanel1.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 290, 30));
 
         jTextField4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jTextField4.setText("0");
         jTextField4.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextField4KeyTyped(evt);
@@ -217,6 +219,7 @@ public class Manage_Products extends javax.swing.JFrame {
         jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 330, 120, -1));
 
         jTextField5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jTextField5.setText("0.0");
         jTextField5.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextField5KeyTyped(evt);
@@ -300,7 +303,7 @@ public class Manage_Products extends javax.swing.JFrame {
     }
 
     private void productTable() {
-        product.getProductData(jTable1, "");
+        product.getProductData(jTable1, "",a);
         model = (DefaultTableModel) jTable1.getModel();
         jTable1.setRowHeight(30);
         jTable1.setShowGrid(true);
@@ -361,7 +364,7 @@ public class Manage_Products extends javax.swing.JFrame {
                             try {
                                 product.insert(ProductID, ProductName, Category, Quantity, Price, f);
                                 jTable1.setModel(new DefaultTableModel(null, new Object[]{"ProductID", "ProductName", "Category", "Quantity", "Price", "Image"}));
-                                product.getProductData(jTable1, "");
+                                product.getProductData(jTable1, "", a);
                                 jTable1.getColumnModel().getColumn(5).setCellRenderer(new ImageIconRenderer());
                                 clear();
                             } catch (FileNotFoundException ex) {
@@ -388,7 +391,7 @@ public class Manage_Products extends javax.swing.JFrame {
 
     private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
         jTable1.setModel(new DefaultTableModel(null, new Object[]{"ProductID", "ProductName", "Category", "Quantity", "Price", "Image"}));
-        product.getProductData(jTable1, jTextField1.getText());
+        product.getProductData(jTable1, jTextField1.getText(), a);
         jTable1.getColumnModel().getColumn(5).setCellRenderer(new ImageIconRenderer());
     }//GEN-LAST:event_jTextField1KeyReleased
 
@@ -404,7 +407,7 @@ public class Manage_Products extends javax.swing.JFrame {
             if (product.isProductIDExist(ProductID)) {
                 product.delete(ProductID);
                 jTable1.setModel(new DefaultTableModel(null, new Object[]{"ProductID", "ProductName", "Category", "Quantity", "Price", "Image"}));
-                product.getProductData(jTable1, "");
+                product.getProductData(jTable1, "", a);
                 jTable1.getColumnModel().getColumn(5).setCellRenderer(new ImageIconRenderer());
                 clear();
             } else {
@@ -443,14 +446,14 @@ public class Manage_Products extends javax.swing.JFrame {
                         if (file == null) {
                             product.updateWithoutImage(ProductID, ProductName, Category, Quantity, Price);
                             jTable1.setModel(new DefaultTableModel(null, new Object[]{"ProductID", "ProductName", "Category", "Quantity", "Price", "Image"}));
-                            product.getProductData(jTable1, "");
+                            product.getProductData(jTable1, "", a);
                             jTable1.getColumnModel().getColumn(5).setCellRenderer(new ImageIconRenderer());
                             clear();
                         } else {
                             try {
                                 product.update(ProductID, ProductName, Category, Quantity, Price, f);
                                 jTable1.setModel(new DefaultTableModel(null, new Object[]{"ProductID", "ProductName", "Category", "Quantity", "Price", "Image"}));
-                                product.getProductData(jTable1, "");
+                                product.getProductData(jTable1, "", a);
                                 jTable1.getColumnModel().getColumn(5).setCellRenderer(new ImageIconRenderer());
                                 clear();
                             } catch (FileNotFoundException ex) {

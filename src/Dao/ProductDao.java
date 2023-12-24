@@ -175,8 +175,8 @@ public class ProductDao {
         }
     }
     
-    public void getProductData(JTable table, String search) {
-        String sql = "select * from product where concat(ProductID,ProductName) like ? order by ProductID asc";
+    public void getProductData(JTable table, String search, int a) {
+        String sql = "select * from product where concat(ProductID,ProductName,CategoryName) like ? order by ProductID asc";
         try {
             Connection con = MyConnection.getConnection();
             ps = con.prepareStatement(sql);
@@ -192,7 +192,7 @@ public class ProductDao {
                 row[4] = rs.getDouble(5);
                 byte[] imageData = rs.getBytes(6);
                 ImageIcon imageIcon = new ImageIcon(imageData);
-                Image image = imageIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+                Image image = imageIcon.getImage().getScaledInstance(a, a, Image.SCALE_SMOOTH);
                 ImageIcon scaledImageIcon = new ImageIcon(image);
                 //Vector<Object> row = new Vector<>();
                 row[5] = scaledImageIcon;

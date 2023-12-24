@@ -5,6 +5,16 @@
  */
 package User;
 
+import Dao.CartDao;
+import Dao.PurchaseDao;
+import Dao.UserDao;
+import java.awt.Color;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author HP
@@ -14,8 +24,17 @@ public class Cart extends javax.swing.JFrame {
     /**
      * Creates new form Cart
      */
+    CartDao cart = new CartDao();
+    UserDao user = new UserDao();
+    PurchaseDao purchase = new PurchaseDao();
+    DefaultTableModel model;
+    int rowIndex;
+    SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
+    Date date = new Date();
+
     public Cart() {
         initComponents();
+        init();
     }
 
     /**
@@ -38,6 +57,9 @@ public class Cart extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jTextField2 = new javax.swing.JTextField();
         jButton5 = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jTextField3 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1030, 640));
@@ -75,19 +97,20 @@ public class Cart extends javax.swing.JFrame {
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1040, 90));
 
+        jTable1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Product ID", "Image", "Name", "Category", "Quantity", "Price", "Total"
+                "Product ID", "Product Name", "Category", "Quantity", "Price", "Total"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Double.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -98,32 +121,65 @@ public class Cart extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
             jTable1.getColumnModel().getColumn(0).setPreferredWidth(10);
         }
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 1030, 480));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 1030, 460));
 
         jButton3.setBackground(new java.awt.Color(204, 204, 204));
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton3.setText("Update Quantity");
-        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 590, 150, 30));
+        jButton3.setText("Update");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 590, 90, 30));
 
         jButton4.setBackground(new java.awt.Color(204, 204, 204));
         jButton4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton4.setText("Purchase");
-        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 590, 140, 30));
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 590, 120, 30));
 
         jTextField2.setBackground(new java.awt.Color(204, 204, 204));
         jTextField2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jPanel1.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 590, 80, 30));
+        jPanel1.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 590, 70, 30));
 
         jButton5.setBackground(new java.awt.Color(204, 204, 204));
         jButton5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton5.setText("Remove Item");
-        jPanel1.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 590, 140, 30));
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 590, 140, 30));
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("Quantity");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 570, 80, 20));
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setText("Sub total");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 570, 70, 20));
+
+        jTextField3.setBackground(new java.awt.Color(204, 204, 204));
+        jTextField3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jPanel1.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 590, 170, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -142,10 +198,97 @@ public class Cart extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void init() {
+        CartTable();
+        jTextField3.setText(String.valueOf(cart.getSubTotal()));
+    }
+
+    private void CartTable() {
+        cart.getCartData(jTable1);
+        model = (DefaultTableModel) jTable1.getModel();
+        jTable1.setRowHeight(30);
+        jTable1.setShowGrid(true);
+        jTable1.setGridColor(Color.BLACK);
+        jTable1.setBackground(Color.WHITE);
+
+    }
+
+    private boolean isEmpty() {
+        if (jTextField2.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please select a product in the table", "Warning", 2);
+            return false;
+        }
+        return true;
+    }
+
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         new User_Account().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1MouseClicked
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        if (isEmpty()) {
+            int ProductID = Integer.parseInt(model.getValueAt(rowIndex, 0).toString());
+            int newQuantity = Integer.parseInt(jTextField2.getText());
+            int oldQuantity = Integer.parseInt(model.getValueAt(rowIndex, 3).toString());
+            double Price = Double.parseDouble(model.getValueAt(rowIndex, 4).toString());
+            double Total = Price * newQuantity;
+            if (!(oldQuantity == newQuantity)) {
+                cart.update(ProductID, newQuantity, Total);
+                jTable1.setModel(new DefaultTableModel(null, new Object[]{"ProductID", "ProductName", "Category", "Quantity", "Price", "Total"}));
+                cart.getCartData(jTable1);
+                clear();
+            } else {
+                JOptionPane.showMessageDialog(this, "Please increase the Quantity", "Warning", 2);
+            }
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        model = (DefaultTableModel) jTable1.getModel();
+        rowIndex = jTable1.getSelectedRow();
+        jTextField2.setText(model.getValueAt(rowIndex, 3).toString());
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        if (isEmpty()) {
+            int ProductID = Integer.parseInt(model.getValueAt(rowIndex, 0).toString());
+            cart.delete(ProductID);
+            jTable1.setModel(new DefaultTableModel(null, new Object[]{"ProductID", "ProductName", "Category", "Quantity", "Price", "Total"}));
+            cart.getCartData(jTable1);
+            clear();
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        int PurchaseID = cart.getPurchaseMaxRow();
+        String[] value = new String[3];
+        String UserName = user.getUName();
+        int UserID = user.getUserID(UserName);
+        value = cart.getUserValue(UserID);
+        String Email = value[1];
+        String PhoneNo = value[2];
+        String Address = value[3];
+        String OrderDate = df.format(date);
+        double SubTotal = Double.parseDouble(String.valueOf(cart.getSubTotal()));
+        for (int i = 0; i < model.getRowCount(); i++) {
+            int ProductID = Integer.parseInt(model.getValueAt(rowIndex, 0).toString());
+            String ProductName = model.getValueAt(rowIndex, 1).toString();
+            int Quantity = Integer.parseInt(model.getValueAt(rowIndex, 3).toString());
+            double Price = Double.parseDouble(model.getValueAt(rowIndex, 4).toString());
+            double Total = Double.parseDouble(model.getValueAt(rowIndex, 5).toString());
+            purchase.insert(PurchaseID, UserID, UserName, ProductID, ProductName, Quantity, Price, Total, PhoneNo, Address, OrderDate, null, null, "Pending");
+            int newQuantity = purchase.getQuantity(ProductID) - Quantity;
+            purchase.updateQuantity(ProductID, newQuantity);
+        }
+
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void clear() {
+        jTextField2.setText("");
+        jTable1.clearSelection();
+        jTextField3.setText(String.valueOf(cart.getSubTotal()));
+    }
 
     /**
      * @param args the command line arguments
@@ -189,10 +332,13 @@ public class Cart extends javax.swing.JFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 }
