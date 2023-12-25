@@ -6,6 +6,7 @@
 package User;
 
 import Dao.CartDao;
+import Dao.ProductDao;
 import Dao.PurchaseDao;
 import Dao.UserDao;
 import java.awt.Color;
@@ -27,6 +28,7 @@ public class Cart extends javax.swing.JFrame {
     CartDao cart = new CartDao();
     UserDao user = new UserDao();
     PurchaseDao purchase = new PurchaseDao();
+    ProductDao product = new ProductDao();
     DefaultTableModel model;
     int rowIndex;
     SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
@@ -103,14 +105,14 @@ public class Cart extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Product ID", "Product Name", "Category", "Quantity", "Price", "Total"
+                "PurchaseID", "Product ID", "Product Name", "Category", "Quantity", "Price", "Total"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Double.class
+                java.lang.Object.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Double.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -127,9 +129,6 @@ public class Cart extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(10);
-        }
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 1030, 460));
 
@@ -230,12 +229,12 @@ public class Cart extends javax.swing.JFrame {
         if (isEmpty()) {
             int ProductID = Integer.parseInt(model.getValueAt(rowIndex, 0).toString());
             int newQuantity = Integer.parseInt(jTextField2.getText());
-            int oldQuantity = Integer.parseInt(model.getValueAt(rowIndex, 3).toString());
-            double Price = Double.parseDouble(model.getValueAt(rowIndex, 4).toString());
+            int oldQuantity = Integer.parseInt(model.getValueAt(rowIndex, 4).toString());
+            double Price = Double.parseDouble(model.getValueAt(rowIndex, 5).toString());
             double Total = Price * newQuantity;
             if (!(oldQuantity == newQuantity)) {
                 cart.update(ProductID, newQuantity, Total);
-                jTable1.setModel(new DefaultTableModel(null, new Object[]{"ProductID", "ProductName", "Category", "Quantity", "Price", "Total"}));
+                jTable1.setModel(new DefaultTableModel(null, new Object[]{"PurchaseID", "ProductID", "ProductName", "Category", "Quantity", "Price", "Total"}));
                 cart.getCartData(jTable1);
                 clear();
             } else {
@@ -247,41 +246,41 @@ public class Cart extends javax.swing.JFrame {
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         model = (DefaultTableModel) jTable1.getModel();
         rowIndex = jTable1.getSelectedRow();
-        jTextField2.setText(model.getValueAt(rowIndex, 3).toString());
+        jTextField2.setText(model.getValueAt(rowIndex, 4).toString());
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         if (isEmpty()) {
-            int ProductID = Integer.parseInt(model.getValueAt(rowIndex, 0).toString());
+            int ProductID = Integer.parseInt(model.getValueAt(rowIndex, 1).toString());
             cart.delete(ProductID);
-            jTable1.setModel(new DefaultTableModel(null, new Object[]{"ProductID", "ProductName", "Category", "Quantity", "Price", "Total"}));
+            jTable1.setModel(new DefaultTableModel(null, new Object[]{"PurchaseID", "ProductID", "ProductName", "Category", "Quantity", "Price", "Total"}));
             cart.getCartData(jTable1);
             clear();
         }
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        int PurchaseID = cart.getPurchaseMaxRow();
         String[] value = new String[3];
         String UserName = user.getUName();
-        int UserID = user.getUserID(UserName);
-        value = cart.getUserValue(UserID);
+        value = cart.getUserValue(UserName);
+        int UserID = Integer.parseInt(value[0]);
         String Email = value[1];
         String PhoneNo = value[2];
         String Address = value[3];
         String OrderDate = df.format(date);
         double SubTotal = Double.parseDouble(String.valueOf(cart.getSubTotal()));
         for (int i = 0; i < model.getRowCount(); i++) {
-            int ProductID = Integer.parseInt(model.getValueAt(rowIndex, 0).toString());
-            String ProductName = model.getValueAt(rowIndex, 1).toString();
-            int Quantity = Integer.parseInt(model.getValueAt(rowIndex, 3).toString());
-            double Price = Double.parseDouble(model.getValueAt(rowIndex, 4).toString());
-            double Total = Double.parseDouble(model.getValueAt(rowIndex, 5).toString());
+            int PurchaseID = Integer.parseInt(model.getValueAt(i, 0).toString());
+            int ProductID = Integer.parseInt(model.getValueAt(i, 1).toString());
+            String ProductName = model.getValueAt(i, 2).toString();
+            int Quantity = Integer.parseInt(model.getValueAt(i, 4).toString());
+            double Price = Double.parseDouble(model.getValueAt(i, 5).toString());
+            double Total = Double.parseDouble(model.getValueAt(i, 6).toString());
             purchase.insert(PurchaseID, UserID, UserName, ProductID, ProductName, Quantity, Price, Total, PhoneNo, Address, OrderDate, null, null, "Pending");
-            int newQuantity = purchase.getQuantity(ProductID) - Quantity;
-            purchase.updateQuantity(ProductID, newQuantity);
+            //int newQuantity = product.getQuantity(ProductID) - Quantity;
+            //product.updateQuantity(ProductID, newQuantity);
         }
-
+        JOptionPane.showMessageDialog(this, "Successfully purchased");
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void clear() {

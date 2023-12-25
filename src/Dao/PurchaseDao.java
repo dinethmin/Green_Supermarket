@@ -15,11 +15,26 @@ public class PurchaseDao {
     Statement st;
     ResultSet rs;
 
+    public int getMaxRow() {
+        int row = 0;
+        try {
+            Connection con = MyConnection.getConnection();
+            st = con.createStatement();
+            rs = st.executeQuery("select max(PurchaseID) from purchasedetails");
+            while (rs.next()) {
+                row = rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(PurchaseDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return row + 1;
+    }
+
     public void insert(int PurchaseID, int UserID, String UserName, int ProductID, String ProductName, int Quantity,
             double Price, double total, String PhoneNo, String Address, String OrderDate, String DeliveryDate,
             String DeliveryName, String Status) {
 
-        String sql = "insert into purchase values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        String sql = "insert into purchasedetails values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         try {
             Connection con = MyConnection.getConnection();
             ps = con.prepareStatement(sql);
@@ -44,34 +59,6 @@ public class PurchaseDao {
         }
     }
 
-    public int getQuantity(int ProductID) {
-        int Quantity = 0;
-        try {
-            Connection con = MyConnection.getConnection();
-            st = con.createStatement();
-            rs = st.executeQuery("select Quantity from product where ProductID = ?");
-            ps.setInt(1, ProductID);
-            if (rs.next()) {
-                Quantity = rs.getInt(1);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(PurchaseDao.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return Quantity;
-    }
-
-    public void updateQuantity(int ProductID, int Quantity) {
-        String sql = "update product set Quantity = ? where ProductID = ?";
-        try {
-            Connection con = MyConnection.getConnection();
-            st = con.prepareStatement(sql);
-            ps.setInt(1, Quantity);
-            ps.setInt(2, ProductID);
-            ps.executeUpdate();
-        } catch (SQLException ex) {
-            Logger.getLogger(PurchaseDao.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
+    
 
 }
