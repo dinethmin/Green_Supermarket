@@ -5,6 +5,15 @@
  */
 package User;
 
+import Dao.CartDao;
+import Dao.ProductDao;
+import Dao.PurchaseDao;
+import Dao.UserDao;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author HP
@@ -14,6 +23,15 @@ public class Purchase_Details extends javax.swing.JFrame {
     /**
      * Creates new form Purchase_Details
      */
+    CartDao cart = new CartDao();
+    UserDao user = new UserDao();
+    PurchaseDao purchase = new PurchaseDao();
+    ProductDao product = new ProductDao();
+    DefaultTableModel model;
+    int rowIndex;
+    SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
+    Date date = new Date();
+    
     public Purchase_Details() {
         initComponents();
     }
@@ -104,6 +122,11 @@ public class Purchase_Details extends javax.swing.JFrame {
             }
         });
         jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 90, 770, 550));
@@ -116,6 +139,8 @@ public class Purchase_Details extends javax.swing.JFrame {
         jLabel2.setText("Purchase ID");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, -1, -1));
 
+        jTextField1.setEditable(false);
+        jTextField1.setBackground(new java.awt.Color(204, 204, 204));
         jTextField1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 360, 220, 30));
 
@@ -123,12 +148,13 @@ public class Purchase_Details extends javax.swing.JFrame {
         jLabel4.setText("Order Date");
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, -1, -1));
 
+        jTextField2.setEditable(false);
         jTextField2.setBackground(new java.awt.Color(204, 204, 204));
         jTextField2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jPanel1.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, 220, 30));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel5.setText("Current Date");
+        jLabel5.setText("Delivery Date");
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 330, -1, -1));
 
         jTextField3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -153,6 +179,14 @@ public class Purchase_Details extends javax.swing.JFrame {
         new User_Account().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton2MouseClicked
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        model = (DefaultTableModel) jTable1.getModel();
+        rowIndex = jTable1.getSelectedRow();
+        jTextField2.setText(model.getValueAt(rowIndex, 0).toString());
+        jTextField3.setText(model.getValueAt(rowIndex, 10).toString());
+        jTextField1.setText(model.getValueAt(rowIndex, 11).toString());
+    }//GEN-LAST:event_jTable1MouseClicked
 
     /**
      * @param args the command line arguments

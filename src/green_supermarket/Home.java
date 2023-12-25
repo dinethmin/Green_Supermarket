@@ -28,11 +28,14 @@ public class Home extends javax.swing.JFrame {
      * Creates new form Home
      */
     ProductDao product = new ProductDao();
-    //PurchaseDao purchase = new PurchaseDao();
+    PurchaseDao purchase = new PurchaseDao();
     CartDao cart = new CartDao();
     DefaultTableModel model;
     int rowIndex;
     int a = 50;
+    int count;
+    int pid ;
+    int pID;
 
     public Home() {
         initComponents();
@@ -201,10 +204,17 @@ public class Home extends javax.swing.JFrame {
 
     private void init() {
         product.getProductData(jTable1, "", a);
-        PurchaseID.setText(String.valueOf(cart.getMaxRow()));
+        getCount();
         HomeTable();
-        jButton2.setText(String.valueOf(cart.getMaxRow() - 1));
         jTable1.getColumnModel().getColumn(5).setCellRenderer(new ImageIconRenderer());
+    }
+
+    private void getCount() {
+        count = cart.getRowCount();
+        pid = purchase.getMaxRow();
+        pID = count + pid;
+        PurchaseID.setText(String.valueOf(pID));
+        jButton2.setText(Integer.toString(count - 1));
     }
 
     class ImageIconRenderer extends DefaultTableCellRenderer {
@@ -233,8 +243,9 @@ public class Home extends javax.swing.JFrame {
     private void clear() {
         jTextField3.setText("");
         jTextField2.setText("0");
-        PurchaseID.setText(String.valueOf(cart.getMaxRow()));
+        PurchaseID.setText(String.valueOf(purchase.getMaxRow()));
         jTable1.clearSelection();
+        getCount();
     }
 
     private boolean isEmpty() {
@@ -274,9 +285,11 @@ public class Home extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jTextField2KeyTyped
 
+
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         if (isEmpty()) {
-            int PID = Integer.parseInt(PurchaseID.getText());
+            getCount();
+            int PID;
             String ProductName = jTextField3.getText();
             int Quantity = Integer.parseInt(jTextField2.getText());
             int ProductID = Integer.parseInt(model.getValueAt(rowIndex, 0).toString());
@@ -286,12 +299,12 @@ public class Home extends javax.swing.JFrame {
             if (cart.isProductExist(ProductName)) {
                 JOptionPane.showMessageDialog(this, "This Product is alrady in cart");
                 clear();
-                jButton2.setText(String.valueOf(cart.getMaxRow() - 1));
-
+                jButton2.setText(Integer.toString(count - 1));
             } else {
+                PID = Integer.parseInt(PurchaseID.getText());
                 cart.insert(PID, ProductID, ProductName, Category, Quantity, Price, Total);
                 clear();
-                jButton2.setText(String.valueOf(cart.getMaxRow() - 1));
+                jButton2.setText(Integer.toString(count - 1));
 
             }
         }

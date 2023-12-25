@@ -18,19 +18,19 @@ public class CartDao {
     Statement st;
     ResultSet rs;
 
-    public int getMaxRow() {
-        int row = 0;
+    public int getRowCount() {
+        int rowCount = 0;
         try {
             Connection con = MyConnection.getConnection();
             st = con.createStatement();
-            rs = st.executeQuery("select max(PurchaseID) from cart");
-            while (rs.next()) {
-                row = rs.getInt(1);
+            rs = st.executeQuery("SELECT COUNT(*) FROM cart");
+            if (rs.next()) {
+                rowCount = rs.getInt(1);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(PurchaseDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CartDao.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return row + 1;
+        return rowCount + 1;
     }
 
     public void insert(int PurchaseID, int ProductID, String ProductName, String CategoryName, int Quantity, double Price, double Total) {
@@ -54,15 +54,18 @@ public class CartDao {
     }
 
     public void update(int ProductID, int Quantity, double Total) {
-        String sql = "update cart set Quantity = ?, Total = ? where ProductID = ?";
+        String sql = "UPDATE cart SET Quantity = ?, Total = ? WHERE ProductID = ?";
         try {
             Connection con = MyConnection.getConnection();
             ps = con.prepareStatement(sql);
             ps.setInt(1, Quantity);
             ps.setDouble(2, Total);
             ps.setInt(3, ProductID);
-            if (ps.executeUpdate() > 0) {
-                JOptionPane.showMessageDialog(null, "Product added to cart");
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                JOptionPane.showMessageDialog(null, "Cart updated successfully");
+            } else {
+                JOptionPane.showMessageDialog(null, "Failed to update cart");
             }
         } catch (SQLException ex) {
             Logger.getLogger(CartDao.class.getName()).log(Level.SEVERE, null, ex);

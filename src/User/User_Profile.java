@@ -333,7 +333,8 @@ public class User_Profile extends javax.swing.JFrame {
     private boolean check(){
         String newEmail = jTextField1.getText();
         String newPhoneNo = jTextField7.getText();
-        if(newEmail.equals(value[2]) && newPhoneNo.equals(value[3])){
+        String newUserName = jTextField3.getText();
+        if(newEmail.equals(value[2]) && newPhoneNo.equals(value[3]) && newUserName.equals(1)){
             return false;
         }else{
             if(!newEmail.equals(value[2])){
@@ -347,6 +348,13 @@ public class User_Profile extends javax.swing.JFrame {
                 boolean x = user.isPhoneNoExist(newPhoneNo);
                 if(x){
                     JOptionPane.showMessageDialog(this, "This PhoneNo already exists","Warning",2);
+                }
+                return x;
+            }
+            if(!newUserName.equals(value[1])){
+                boolean x = user.isUserNameExist(newUserName);
+                if(x){
+                    JOptionPane.showMessageDialog(this, "This UserName already exists","Warning",2);
                 }
                 return x;
             }

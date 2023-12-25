@@ -227,18 +227,18 @@ public class Cart extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         if (isEmpty()) {
-            int ProductID = Integer.parseInt(model.getValueAt(rowIndex, 0).toString());
+            int ProductID = Integer.parseInt(model.getValueAt(rowIndex, 1).toString());
             int newQuantity = Integer.parseInt(jTextField2.getText());
             int oldQuantity = Integer.parseInt(model.getValueAt(rowIndex, 4).toString());
             double Price = Double.parseDouble(model.getValueAt(rowIndex, 5).toString());
             double Total = Price * newQuantity;
-            if (!(oldQuantity == newQuantity)) {
+            if (newQuantity == oldQuantity) {
+                JOptionPane.showMessageDialog(this, "Please increase the Quantity", "Warning", 2);
+            } else {
                 cart.update(ProductID, newQuantity, Total);
                 jTable1.setModel(new DefaultTableModel(null, new Object[]{"PurchaseID", "ProductID", "ProductName", "Category", "Quantity", "Price", "Total"}));
                 cart.getCartData(jTable1);
                 clear();
-            } else {
-                JOptionPane.showMessageDialog(this, "Please increase the Quantity", "Warning", 2);
             }
         }
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -260,6 +260,31 @@ public class Cart extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        if (InsertToPruchase()) {
+            if (UpdateQuantity()) {
+                JOptionPane.showMessageDialog(this, "Successfully purchased");
+                DeteteCartData();
+            } else {
+                JOptionPane.showMessageDialog(this, "Successfully purchased but not Updated");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "purchased was not Successful");
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void clear() {
+        jTextField2.setText("");
+        jTable1.clearSelection();
+        jTextField3.setText(String.valueOf(cart.getSubTotal()));
+    }
+
+    private boolean InsertToPruchase() {
+        int PurchaseID;
+        int ProductID;
+        String ProductName;
+        int Quantity;
+        double Price;
+        double Total;
         String[] value = new String[3];
         String UserName = user.getUName();
         value = cart.getUserValue(UserName);
@@ -268,25 +293,42 @@ public class Cart extends javax.swing.JFrame {
         String PhoneNo = value[2];
         String Address = value[3];
         String OrderDate = df.format(date);
-        double SubTotal = Double.parseDouble(String.valueOf(cart.getSubTotal()));
+        //double SubTotal = Double.parseDouble(String.valueOf(cart.getSubTotal()));
         for (int i = 0; i < model.getRowCount(); i++) {
-            int PurchaseID = Integer.parseInt(model.getValueAt(i, 0).toString());
-            int ProductID = Integer.parseInt(model.getValueAt(i, 1).toString());
-            String ProductName = model.getValueAt(i, 2).toString();
-            int Quantity = Integer.parseInt(model.getValueAt(i, 4).toString());
-            double Price = Double.parseDouble(model.getValueAt(i, 5).toString());
-            double Total = Double.parseDouble(model.getValueAt(i, 6).toString());
+            PurchaseID = Integer.parseInt(model.getValueAt(i, 0).toString());
+            ProductID = Integer.parseInt(model.getValueAt(i, 1).toString());
+            ProductName = model.getValueAt(i, 2).toString();
+            Quantity = Integer.parseInt(model.getValueAt(i, 4).toString());
+            Price = Double.parseDouble(model.getValueAt(i, 5).toString());
+            Total = Double.parseDouble(model.getValueAt(i, 6).toString());
             purchase.insert(PurchaseID, UserID, UserName, ProductID, ProductName, Quantity, Price, Total, PhoneNo, Address, OrderDate, null, null, "Pending");
-            //int newQuantity = product.getQuantity(ProductID) - Quantity;
-            //product.updateQuantity(ProductID, newQuantity);
         }
-        JOptionPane.showMessageDialog(this, "Successfully purchased");
-    }//GEN-LAST:event_jButton4ActionPerformed
+        return true;
+    }
 
-    private void clear() {
-        jTextField2.setText("");
-        jTable1.clearSelection();
-        jTextField3.setText(String.valueOf(cart.getSubTotal()));
+    private boolean UpdateQuantity() {
+        int PID;
+        int oldQuantity;
+        int nQty;
+        int newQuantity;
+        for (int i = 0; i < model.getRowCount(); i++) {
+            PID = Integer.parseInt(model.getValueAt(i, 1).toString());
+            oldQuantity = Integer.parseInt(model.getValueAt(i, 4).toString());
+            nQty = product.getQuantity(PID);
+            newQuantity = nQty - oldQuantity;
+            //System.out.println("pID "+PID+" OldQty "+oldQuantity+" NQty "+nQty+" NewQty "+newQuantity);
+            product.updateQuantity(PID, newQuantity);
+        }
+        return true;
+    }
+
+    private boolean DeteteCartData() {
+        int PID;
+        for (int i = 0; i < model.getRowCount(); i++) {
+            PID = Integer.parseInt(model.getValueAt(i, 1).toString());
+            product.deleteCartData(PID);
+        }
+        return true;
     }
 
     /**

@@ -218,13 +218,25 @@ public class ProductDao {
         return Quantity;
     }
     
-    public void updateQuantity(int ProductID, int Quantity) {
+    public void updateQuantity(int ProductID, int NewQuantity) {
         String sql = "update product set Quantity = ? where ProductID = ?";
         try {
             Connection con = MyConnection.getConnection();
-            st = con.prepareStatement(sql);
-            ps.setInt(1, Quantity);
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, NewQuantity);
             ps.setInt(2, ProductID);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void deleteCartData(int ProductID) {
+        String sql ="delete from cart where ProductID = ?";
+        try {
+            Connection con = MyConnection.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, ProductID);
             ps.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ProductDao.class.getName()).log(Level.SEVERE, null, ex);

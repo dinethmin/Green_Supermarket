@@ -49,6 +49,21 @@ public class UserDao {
         }
         return false;
     }
+    
+    public boolean isUserNameExist(String UserName) {
+        try {
+            Connection con = MyConnection.getConnection();
+            ps = con.prepareStatement("select * from user where UserName = ?");
+            ps.setString(1, UserName);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
 
     public boolean isPhoneNoExist(String PhoneNo) {
         try {
