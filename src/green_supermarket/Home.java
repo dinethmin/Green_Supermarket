@@ -7,6 +7,7 @@ package green_supermarket;
 
 import Dao.CartDao;
 import Dao.ProductDao;
+import Dao.PurchaseDao;
 import User.Cart;
 import java.awt.Color;
 import java.awt.Component;
@@ -27,6 +28,7 @@ public class Home extends javax.swing.JFrame {
      * Creates new form Home
      */
     ProductDao product = new ProductDao();
+    //PurchaseDao purchase = new PurchaseDao();
     CartDao cart = new CartDao();
     DefaultTableModel model;
     int rowIndex;
@@ -61,6 +63,7 @@ public class Home extends javax.swing.JFrame {
         jTextField2 = new javax.swing.JTextField();
         jTextField3 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
+        PurchaseID = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
@@ -125,12 +128,12 @@ public class Home extends javax.swing.JFrame {
                 jButton3ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 590, 210, 30));
+        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 590, 210, 30));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Quantity");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 590, 80, 30));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 590, 80, 30));
 
         jTable1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -174,16 +177,21 @@ public class Home extends javax.swing.JFrame {
                 jTextField2KeyTyped(evt);
             }
         });
-        jPanel1.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 590, 90, 30));
+        jPanel1.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 590, 90, 30));
 
         jTextField3.setEditable(false);
         jTextField3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jPanel1.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 590, 210, 30));
+        jPanel1.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 590, 210, 30));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Product Name");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 590, 120, 30));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 590, 120, 30));
+
+        PurchaseID.setEditable(false);
+        PurchaseID.setBackground(new java.awt.Color(204, 204, 204));
+        PurchaseID.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jPanel1.add(PurchaseID, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 590, 40, 30));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1030, 640));
 
@@ -193,8 +201,9 @@ public class Home extends javax.swing.JFrame {
 
     private void init() {
         product.getProductData(jTable1, "", a);
-        jButton2.setText(String.valueOf(cart.getMaxRow()));
+        PurchaseID.setText(String.valueOf(cart.getMaxRow()));
         HomeTable();
+        jButton2.setText(String.valueOf(cart.getMaxRow() - 1));
         jTable1.getColumnModel().getColumn(5).setCellRenderer(new ImageIconRenderer());
     }
 
@@ -224,6 +233,7 @@ public class Home extends javax.swing.JFrame {
     private void clear() {
         jTextField3.setText("");
         jTextField2.setText("0");
+        PurchaseID.setText(String.valueOf(cart.getMaxRow()));
         jTable1.clearSelection();
     }
 
@@ -266,6 +276,7 @@ public class Home extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         if (isEmpty()) {
+            int PID = Integer.parseInt(PurchaseID.getText());
             String ProductName = jTextField3.getText();
             int Quantity = Integer.parseInt(jTextField2.getText());
             int ProductID = Integer.parseInt(model.getValueAt(rowIndex, 0).toString());
@@ -274,12 +285,14 @@ public class Home extends javax.swing.JFrame {
             double Total = Price * Quantity;
             if (cart.isProductExist(ProductName)) {
                 JOptionPane.showMessageDialog(this, "This Product is alrady in cart");
-                jButton2.setText(String.valueOf(cart.getMaxRow()));
                 clear();
+                jButton2.setText(String.valueOf(cart.getMaxRow() - 1));
+
             } else {
-                cart.insert(ProductID, ProductName, Category, Quantity, Price, Total);
-                jButton2.setText(String.valueOf(cart.getMaxRow()));
+                cart.insert(PID, ProductID, ProductName, Category, Quantity, Price, Total);
                 clear();
+                jButton2.setText(String.valueOf(cart.getMaxRow() - 1));
+
             }
         }
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -326,6 +339,7 @@ public class Home extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField PurchaseID;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;

@@ -203,4 +203,32 @@ public class ProductDao {
         }
     }
     
+    public int getQuantity(int ProductID) {
+        int Quantity = 0;
+        try {
+            Connection con = MyConnection.getConnection();
+            st = con.createStatement();
+            rs = st.executeQuery("select Quantity from product where ProductID = " + ProductID + "");
+            if (rs.next()) {
+                Quantity = rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return Quantity;
+    }
+    
+    public void updateQuantity(int ProductID, int Quantity) {
+        String sql = "update product set Quantity = ? where ProductID = ?";
+        try {
+            Connection con = MyConnection.getConnection();
+            st = con.prepareStatement(sql);
+            ps.setInt(1, Quantity);
+            ps.setInt(2, ProductID);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
 }

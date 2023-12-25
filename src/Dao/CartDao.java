@@ -17,33 +17,34 @@ public class CartDao {
     PreparedStatement ps;
     Statement st;
     ResultSet rs;
-    
+
     public int getMaxRow() {
         int row = 0;
         try {
             Connection con = MyConnection.getConnection();
             st = con.createStatement();
-            rs = st.executeQuery("select count(ProductID) from cart");
+            rs = st.executeQuery("select max(PurchaseID) from cart");
             while (rs.next()) {
                 row = rs.getInt(1);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(CartDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PurchaseDao.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return row;
+        return row + 1;
     }
 
-    public void insert(int ProductID, String ProductName, String CategoryName, int Quantity, double Price, double Total) {
-        String sql = "insert into cart values(?,?,?,?,?,?)";
+    public void insert(int PurchaseID, int ProductID, String ProductName, String CategoryName, int Quantity, double Price, double Total) {
+        String sql = "insert into cart values(?,?,?,?,?,?,?)";
         try {
             Connection con = MyConnection.getConnection();
             ps = con.prepareStatement(sql);
-            ps.setInt(1, ProductID);
-            ps.setString(2, ProductName);
-            ps.setString(3, CategoryName);
-            ps.setInt(4, Quantity);
-            ps.setDouble(5, Price);
-            ps.setDouble(6, Total);
+            ps.setInt(1, PurchaseID);
+            ps.setInt(2, ProductID);
+            ps.setString(3, ProductName);
+            ps.setString(4, CategoryName);
+            ps.setInt(5, Quantity);
+            ps.setDouble(6, Price);
+            ps.setDouble(7, Total);
             if (ps.executeUpdate() > 0) {
                 JOptionPane.showMessageDialog(null, "Product added to Cart");
             }
@@ -51,7 +52,7 @@ public class CartDao {
             Logger.getLogger(CartDao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void update(int ProductID, int Quantity, double Total) {
         String sql = "update cart set Quantity = ?, Total = ? where ProductID = ?";
         try {
@@ -67,7 +68,7 @@ public class CartDao {
             Logger.getLogger(CartDao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void delete(int ProductID) {
         int x = JOptionPane.showConfirmDialog(null, "Are you sure to remove this product?", "Remove Product", JOptionPane.YES_NO_OPTION, 0);
         if (x == JOptionPane.OK_OPTION) {
@@ -83,8 +84,8 @@ public class CartDao {
             }
         }
     }
-    
-    public boolean isProductExist(String ProductName){
+
+    public boolean isProductExist(String ProductName) {
         try {
             Connection con = MyConnection.getConnection();
             ps = con.prepareStatement("select * from cart where ProductName = ?");
@@ -98,7 +99,7 @@ public class CartDao {
         }
         return false;
     }
-    
+
     public void getCartData(JTable table) {
         String sql = "select * from cart order by ProductID asc";
         try {
@@ -106,22 +107,23 @@ public class CartDao {
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
             DefaultTableModel model = (DefaultTableModel) table.getModel();
-            Object[] row = new Object[6];
+            Object[] row = new Object[7];
             while (rs.next()) {
                 row[0] = rs.getInt(1);
-                row[1] = rs.getString(2);
+                row[1] = rs.getInt(2);
                 row[2] = rs.getString(3);
-                row[3] = rs.getInt(4);
-                row[4] = rs.getDouble(5);
+                row[3] = rs.getString(4);
+                row[4] = rs.getInt(5);
                 row[5] = rs.getDouble(6);
+                row[6] = rs.getDouble(7);
                 model.addRow(row);
             }
         } catch (SQLException ex) {
             Logger.getLogger(CartDao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public double getSubTotal(){
+
+    public double getSubTotal() {
         double SubTotal = 0;
         try {
             Connection con = MyConnection.getConnection();
@@ -135,38 +137,24 @@ public class CartDao {
         }
         return SubTotal;
     }
-    
-    public String[] getUserValue(int UserID) {
-        String[] value = new String[3];
+
+    public String[] getUserValue(String UserName) {
+        String[] value = new String[4];
+        String sql = "select UserID,Email,PhoneNo,Address from user where UserName = '" + UserName + "'";
         try {
             Connection con = MyConnection.getConnection();
-            ps = con.prepareStatement("select Email,PhoneNo,Address from user where UserID = ?");
-            ps.setInt(1, UserID);
+            ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
             if (rs.next()) {
                 value[0] = rs.getString(1);
                 value[1] = rs.getString(2);
                 value[2] = rs.getString(3);
+                value[3] = rs.getString(4);
             }
         } catch (SQLException ex) {
             Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         return value;
-    }
-    
-    public int getPurchaseMaxRow() {
-        int row = 0;
-        try {
-            Connection con = MyConnection.getConnection();
-            st = con.createStatement();
-            rs = st.executeQuery("select count(PurchaseID) from purchase");
-            while (rs.next()) {
-                row = rs.getInt(1);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(CartDao.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return row + 1 ;
     }
 
 }
