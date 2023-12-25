@@ -27,7 +27,7 @@ public class PurchaseDao {
         } catch (SQLException ex) {
             Logger.getLogger(PurchaseDao.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return row + 1;
+        return row;
     }
 
     public void insert(int PurchaseID, int UserID, String UserName, int ProductID, String ProductName, int Quantity,

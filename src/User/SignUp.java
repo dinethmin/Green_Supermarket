@@ -347,12 +347,16 @@ public class SignUp extends javax.swing.JFrame {
             String SecurityQuestion = jComboBox1.getSelectedItem().toString();
             String Answer = jTextField1.getText();
             if (!user.isEmailExist(Email)) {
-                if (!user.isPhoneNoExist(PhoneNo)) {
-                    user.insert(UserID, UserName, Email, PhoneNo, SecurityQuestion, Answer, Address, Password);
-                    new Login().setVisible(true);
-                    this.dispose();
+                if (!user.isUserNameExist(UserName)) {
+                    if (!user.isPhoneNoExist(PhoneNo)) {
+                        user.insert(UserID, UserName, Email, PhoneNo, SecurityQuestion, Answer, Address, Password);
+                        new Login().setVisible(true);
+                        this.dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "This PhoneNo is already exists", "Warning", 2);
+                    }
                 } else {
-                    JOptionPane.showMessageDialog(this, "This PhoneNo is already exists", "Warning", 2);
+                    JOptionPane.showMessageDialog(this, "This UserName is already exists", "Warning", 2);
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "This Email address is already exists", "Warning", 2);
