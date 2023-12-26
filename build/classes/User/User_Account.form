@@ -262,20 +262,32 @@
             <Component class="javax.swing.JTable" name="jTable1">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="8" rowCount="0">
+                  <Table columnCount="10" rowCount="0">
                     <Column editable="false" title="Product ID" type="java.lang.Integer"/>
-                    <Column editable="false" title="Image" type="java.lang.Object"/>
-                    <Column editable="false" title="Name" type="java.lang.String"/>
+                    <Column editable="false" title="Product Name" type="java.lang.String"/>
                     <Column editable="false" title="Category" type="java.lang.String"/>
                     <Column editable="false" title="Quantity" type="java.lang.Integer"/>
-                    <Column editable="false" title="Price" type="java.lang.Float"/>
-                    <Column editable="false" title="Order Date" type="java.lang.Object"/>
-                    <Column editable="false" title="Delivary Date" type="java.lang.Object"/>
+                    <Column editable="false" title="Price" type="java.lang.Double"/>
+                    <Column editable="false" title="Total" type="java.lang.Double"/>
+                    <Column editable="false" title="Order Date" type="java.lang.String"/>
+                    <Column editable="false" title="Delivary Date" type="java.lang.String"/>
+                    <Column editable="false" title="Delivery Name" type="java.lang.String"/>
+                    <Column editable="false" title="Status" type="java.lang.String"/>
                   </Table>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                   <TableColumnModel selectionModel="0">
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="40" resizable="false">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>
