@@ -107,6 +107,22 @@ public class UserDao {
 
         return uName;
     }
+    
+    public String getEmail(String UserName){
+        String Email = null;
+        try {
+            Connection con = MyConnection.getConnection();
+            ps = con.prepareStatement("select Email from user where UserName = ?");
+            ps.setString(1, UserName);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                Email = rs.getString(1);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return Email;
+    }
 
     public String[] getUserValue(int UserID) {
         String[] value = new String[8];

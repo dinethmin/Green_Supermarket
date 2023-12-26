@@ -9,6 +9,7 @@ import Dao.CartDao;
 import Dao.ProductDao;
 import Dao.PurchaseDao;
 import Dao.UserDao;
+import green_supermarket.EmailSender;
 import java.awt.Color;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -29,6 +30,7 @@ public class Purchase_Details extends javax.swing.JFrame {
     UserDao user = new UserDao();
     PurchaseDao purchase = new PurchaseDao();
     ProductDao product = new ProductDao();
+    EmailSender emailSender = new EmailSender();
     DefaultTableModel model;
     int rowIndex;
     SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
@@ -37,6 +39,7 @@ public class Purchase_Details extends javax.swing.JFrame {
     public Purchase_Details() {
         initComponents();
         init();
+
     }
 
     /**
@@ -139,6 +142,11 @@ public class Purchase_Details extends javax.swing.JFrame {
 
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton1.setText("Proceed to Checkout");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 570, 210, 40));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -251,11 +259,16 @@ public class Purchase_Details extends javax.swing.JFrame {
                 jTable1.setModel(new DefaultTableModel(null, new Object[]{"PurchaseID", "UserID", "UserName", "ProductID", "ProductName", "Quantity", "Price", "Total", "PhoneNo", "Address", "OrderDate", "DeliveryDate", "DeliveryName", "Status"}));
                 purchase.getCartData(jTable1, UserName);
                 clear();
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(this, "purchased cancellation was not Successful");
             }
         }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void clear() {
         jTextField2.setText("");
@@ -278,6 +291,19 @@ public class Purchase_Details extends javax.swing.JFrame {
         product.updateQuantity(ProductID, newQuantity);
 
         return true;
+    }
+
+    private void SendMail() {
+        String UserName = user.getUName();
+        String recipientEmail = user.getEmail(UserName);
+        String subject = "Payment";
+        String[][] sampleTableData = {
+            {"Column 1", "Column 2", "Column 3"},
+            {"Data 1", "Data 2", "Data 3"},
+            {"Data 4", "Data 5", "Data 6"}
+        };
+        EmailSender.sendEmailWithTable(recipientEmail, subject, sampleTableData);
+
     }
 
     /**
