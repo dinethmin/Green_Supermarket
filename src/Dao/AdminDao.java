@@ -28,7 +28,6 @@ public class AdminDao {
             while (rs.next()) {
                 row = rs.getInt(1);
             }
-
         } catch (SQLException ex) {
             Logger.getLogger(AdminDao.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -77,6 +76,8 @@ public class AdminDao {
             ps.setString(5, Password);
             if (ps.executeUpdate() > 0) {
                 JOptionPane.showMessageDialog(null, "Admin added successfully");
+            }else{
+                JOptionPane.showMessageDialog(null, "Error");
             }
         } catch (SQLException ex) {
             Logger.getLogger(AdminDao.class.getName()).log(Level.SEVERE, null, ex);
@@ -88,7 +89,7 @@ public class AdminDao {
 
         return uName;
     }
-    
+
     public String[] getAdminValue(int AdminID) {
         String[] value = new String[5];
         try {
@@ -137,13 +138,14 @@ public class AdminDao {
             ps.setInt(5, aID);
             if (ps.executeUpdate() > 0) {
                 JOptionPane.showMessageDialog(null, "Admin data successfully updated");
+            }else{
+                JOptionPane.showMessageDialog(null, "Error");
             }
-
         } catch (SQLException ex) {
             Logger.getLogger(AdminDao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void delete(int aID) {
         int x = JOptionPane.showConfirmDialog(null, "Are you sure to delete this account?", "Delete Account", JOptionPane.YES_NO_OPTION, 0);
         if (x == JOptionPane.OK_OPTION) {
@@ -154,8 +156,9 @@ public class AdminDao {
                 if (ps.executeUpdate() > 0) {
                     JOptionPane.showMessageDialog(null, "Account deleted");
                     System.exit(0);
+                }else{
+                    JOptionPane.showMessageDialog(null, "Error");
                 }
-
             } catch (SQLException ex) {
                 Logger.getLogger(AdminDao.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -184,4 +187,101 @@ public class AdminDao {
         }
     }
 
+    public void getPurchaseData(JTable table, String Status, String DeliveryName, String DeliveryDate) {
+        String sql = "select * from purchasedetails where DeliveryName = ? and Status = ? and DeliveryDate = ? order by PurchaseID asc";
+        try {
+            Connection con = MyConnection.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, DeliveryName);
+            ps.setString(2, Status);
+            ps.setString(3, DeliveryDate);
+            rs = ps.executeQuery();
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+            Object[] row = new Object[14];
+            while (rs.next()) {
+                row[0] = rs.getInt(1);
+                row[1] = rs.getInt(2);
+                row[2] = rs.getString(3);
+                row[3] = rs.getInt(4);
+                row[4] = rs.getString(5);
+                row[5] = rs.getInt(6);
+                row[6] = rs.getDouble(7);
+                row[7] = rs.getDouble(8);
+                row[8] = rs.getString(9);
+                row[9] = rs.getString(10);
+                row[10] = rs.getString(11);
+                row[11] = rs.getString(12);
+                row[12] = rs.getString(13);
+                row[13] = rs.getString(14);
+                model.addRow(row);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AdminDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public int countDeliveries() {
+        int total = 0;
+        try {
+            Connection con = MyConnection.getConnection();
+            st = con.createStatement();
+            rs = st.executeQuery("select count(*) as total from delivery_team");
+            if (rs.next()) {
+                total = rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AdminDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return total;
+    }
+
+    public String[] getDeliveries() {
+        String[] Deliveries = new String[countDeliveries()];
+        try {
+            Connection con = MyConnection.getConnection();
+            st = con.createStatement();
+            rs = st.executeQuery("select * from delivery_team");
+            int i = 0;
+            while (rs.next()) {
+                Deliveries[i] = rs.getString(2);
+                i++;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AdminDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return Deliveries;
+    }
+    
+    public void setDeliveryName(int PurchaseID, String DeliveryName){
+        String sql = "update purchasedetails set DeliveryName = ? where PurchaseID = ?";
+        try {
+            Connection con = MyConnection.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, DeliveryName);
+            ps.setInt(2, PurchaseID);
+            if (ps.executeUpdate() > 0) {
+                JOptionPane.showMessageDialog(null, "Delivery Assigned successfully");
+            }else{
+                JOptionPane.showMessageDialog(null, "Error");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AdminDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public double getTotalSales() {
+        double Total = 0;
+        String Status = "Paid";
+        try {
+            Connection con = MyConnection.getConnection();
+            ps = con.prepareStatement("select sum(total) from purchasedetails where Status = '" + Status + "'");
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                Total = rs.getDouble(1);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AdminDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return Total;
+    }
 }

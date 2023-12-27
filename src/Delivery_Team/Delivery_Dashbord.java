@@ -5,9 +5,13 @@
  */
 package Delivery_Team;
 
+import Dao.AdminDao;
 import Dao.DeliveryDao;
+import Dao.UserDao;
 import User.Login;
+import java.awt.Color;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -19,6 +23,11 @@ public class Delivery_Dashbord extends javax.swing.JFrame {
      * Creates new form Delivery_Dashbord
      */
     DeliveryDao delivery = new DeliveryDao();
+    AdminDao admin = new AdminDao();
+    UserDao user = new UserDao();
+    DefaultTableModel model;
+    int rowIndex;
+    
     public Delivery_Dashbord() {
         initComponents();
         init();
@@ -126,11 +135,11 @@ public class Delivery_Dashbord extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Purchase ID", "User ID", "User Name", "User Phone", "Product ID", "Product Name", "Quantity", "Price", "Total", "Order Date", "Address", "Delivery Date", "Delivery Name", "Status"
+                "Purchase ID", "User ID", "User Name", "Product ID", "Product Name", "Quantity", "Price", "Total", "User Phone", "Address", "Order Date", "Delivery Date", "Delivery Name", "Status"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Float.class, java.lang.Float.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Float.class, java.lang.Float.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false, false, false, false, false, false, false, false, false
@@ -150,12 +159,12 @@ public class Delivery_Dashbord extends javax.swing.JFrame {
             jTable1.getColumnModel().getColumn(0).setPreferredWidth(80);
             jTable1.getColumnModel().getColumn(1).setPreferredWidth(60);
             jTable1.getColumnModel().getColumn(2).setPreferredWidth(80);
-            jTable1.getColumnModel().getColumn(3).setPreferredWidth(90);
-            jTable1.getColumnModel().getColumn(4).setPreferredWidth(80);
-            jTable1.getColumnModel().getColumn(5).setPreferredWidth(100);
-            jTable1.getColumnModel().getColumn(6).setPreferredWidth(60);
+            jTable1.getColumnModel().getColumn(3).setPreferredWidth(80);
+            jTable1.getColumnModel().getColumn(4).setPreferredWidth(100);
+            jTable1.getColumnModel().getColumn(5).setPreferredWidth(60);
+            jTable1.getColumnModel().getColumn(6).setPreferredWidth(80);
             jTable1.getColumnModel().getColumn(7).setPreferredWidth(80);
-            jTable1.getColumnModel().getColumn(8).setPreferredWidth(80);
+            jTable1.getColumnModel().getColumn(8).setPreferredWidth(90);
             jTable1.getColumnModel().getColumn(9).setPreferredWidth(100);
             jTable1.getColumnModel().getColumn(10).setPreferredWidth(100);
             jTable1.getColumnModel().getColumn(11).setPreferredWidth(100);
@@ -190,6 +199,21 @@ public class Delivery_Dashbord extends javax.swing.JFrame {
 
     private void init(){
         deliveryWelcome.setText("Welcome "+delivery.getUName());
+        DeliveriesTable();
+        int dno = model.getRowCount();
+        jLabel2.setText(String.valueOf(dno));
+    }
+
+    private void DeliveriesTable() {
+        String UserName = user.getUName();
+        String ST = "Paid";
+        String DD = "Pending";
+        delivery.getPurchaseData(jTable1, ST, UserName, DD);
+        model = (DefaultTableModel) jTable1.getModel();
+        jTable1.setRowHeight(30);
+        jTable1.setShowGrid(true);
+        jTable1.setGridColor(Color.BLACK);
+        jTable1.setBackground(Color.WHITE);
     }
     
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed

@@ -61,7 +61,7 @@ public class PurchaseDao {
             Logger.getLogger(PurchaseDao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void delete(int PurchaseID) {
         int x = JOptionPane.showConfirmDialog(null, "Are you sure to remove this product?", "Cancel Purchase", JOptionPane.YES_NO_OPTION, 0);
         if (x == JOptionPane.OK_OPTION) {
@@ -78,12 +78,26 @@ public class PurchaseDao {
         }
     }
 
-    public void getCartData(JTable table, String UserName) {
-        String sql = "select * from purchasedetails where UserName = ? order by PurchaseID asc";
+    public void update(String UserName, String Status) {
+        String sql = "UPDATE purchasedetails SET Status = ? WHERE UserName = ?";
+        try {
+            Connection con = MyConnection.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, Status);
+            ps.setString(2, UserName);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(CartDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void getPurchaseData(JTable table, String UserName, String Status) {
+        String sql = "select * from purchasedetails where UserName = ? and Status = ? order by PurchaseID asc";
         try {
             Connection con = MyConnection.getConnection();
             ps = con.prepareStatement(sql);
             ps.setString(1, UserName);
+            ps.setString(2, Status);
             rs = ps.executeQuery();
             DefaultTableModel model = (DefaultTableModel) table.getModel();
             Object[] row = new Object[14];
@@ -109,11 +123,11 @@ public class PurchaseDao {
         }
     }
 
-    public double getSubTotalPrice(String UserName) {
+    public double getSubTotalPrice(String UserName, String Status) {
         double SubTotalPrice = 0;
         try {
             Connection con = MyConnection.getConnection();
-            ps = con.prepareStatement("select sum(total) from purchasedetails where UserName = '" + UserName + "'");
+            ps = con.prepareStatement("select sum(total) from purchasedetails where UserName = '" + UserName + "' and Status = '" + Status + "'");
             rs = ps.executeQuery();
             if (rs.next()) {
                 SubTotalPrice = rs.getDouble(1);
@@ -123,5 +137,26 @@ public class PurchaseDao {
         }
         return SubTotalPrice;
     }
-    
+
+    public void sendEmail(String UserName) {
+        String sql = "select PurchaseID, ProductID, ProductName, Quantity, Price, total from purchasedetails where UserName = ?";
+        try {
+            Connection con = MyConnection.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, UserName);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                String column1Value = String.valueOf(rs.getInt("PurchaseID"));
+                String column2Value = String.valueOf(rs.getInt("ProductID"));
+                String column3Value = rs.getString("ProductName");
+                String column4Value = String.valueOf(rs.getInt("Quantity"));
+                String column5Value = String.valueOf(rs.getDouble("Price"));
+                String column6Value = String.valueOf(rs.getDouble("total"));
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(PurchaseDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
 }

@@ -31,7 +31,7 @@ public class Cart extends javax.swing.JFrame {
     ProductDao product = new ProductDao();
     DefaultTableModel model;
     int rowIndex;
-    SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
+    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
     Date date = new Date();
 
     public Cart() {
@@ -264,6 +264,8 @@ public class Cart extends javax.swing.JFrame {
             if (UpdateQuantity()) {
                 JOptionPane.showMessageDialog(this, "Successfully purchased");
                 DeteteCartData();
+                new User_Account().setVisible(true);
+                this.dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Successfully purchased but not Updated");
             }
@@ -301,7 +303,7 @@ public class Cart extends javax.swing.JFrame {
             Quantity = Integer.parseInt(model.getValueAt(i, 4).toString());
             Price = Double.parseDouble(model.getValueAt(i, 5).toString());
             Total = Double.parseDouble(model.getValueAt(i, 6).toString());
-            purchase.insert(PurchaseID, UserID, UserName, ProductID, ProductName, Quantity, Price, Total, PhoneNo, Address, OrderDate, null, null, "Pending");
+            purchase.insert(PurchaseID, UserID, UserName, ProductID, ProductName, Quantity, Price, Total, PhoneNo, Address, OrderDate, "Pending", "Not Assign", "Pending");
         }
         return true;
     }

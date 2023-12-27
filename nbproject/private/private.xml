@@ -3,13 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/HP/Documents/NetBeansProjects/GREEN_Supermarket/src/green_supermarket/EmailSender.java</file>
+            <file>file:/C:/Users/HP/Documents/NetBeansProjects/GREEN_Supermarket/src/Dao/AdminDao.java</file>
             <file>file:/C:/Users/HP/Documents/NetBeansProjects/GREEN_Supermarket/src/User/Purchase_Details.java</file>
+            <file>file:/C:/Users/HP/Documents/NetBeansProjects/GREEN_Supermarket/src/Admin/Assign_Delivery.java</file>
             <file>file:/C:/Users/HP/Documents/NetBeansProjects/GREEN_Supermarket/src/Dao/ProductDao.java</file>
             <file>file:/C:/Users/HP/Documents/NetBeansProjects/GREEN_Supermarket/src/Dao/PurchaseDao.java</file>
-            <file>file:/C:/Users/HP/Documents/NetBeansProjects/GREEN_Supermarket/src/User/User_Account.java</file>
             <file>file:/C:/Users/HP/Documents/NetBeansProjects/GREEN_Supermarket/src/Dao/CartDao.java</file>
-            <file>file:/C:/Users/HP/Documents/NetBeansProjects/GREEN_Supermarket/src/User/Cart.java</file>
+            <file>file:/C:/Users/HP/Documents/NetBeansProjects/GREEN_Supermarket/src/Admin/Manage_Products.java</file>
         </group>
     </open-files>
 </project-private>
