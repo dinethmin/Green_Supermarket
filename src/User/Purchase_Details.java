@@ -11,9 +11,12 @@ import Dao.PurchaseDao;
 import Dao.UserDao;
 import green_supermarket.EmailSender;
 import java.awt.Color;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -36,7 +39,7 @@ public class Purchase_Details extends javax.swing.JFrame {
     SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
     Date date = new Date();
 
-    public Purchase_Details() {
+    public Purchase_Details() throws SQLException {
         initComponents();
         init();
 
@@ -209,15 +212,17 @@ public class Purchase_Details extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void init() {
-        CartTable();
+    private void init() throws SQLException {
+        PurchaseTable();
         String UserName = user.getUName();
-        jTextField4.setText(String.valueOf(purchase.getSubTotalPrice(UserName)));
+        String ST = "Pending";
+        jTextField4.setText(String.valueOf(purchase.getSubTotalPrice(UserName, ST)));
     }
 
-    private void CartTable() {
+    private void PurchaseTable() {
         String UserName = user.getUName();
-        purchase.getCartData(jTable1, UserName);
+        String ST = "Pending";
+        purchase.getPurchaseData(jTable1, UserName, ST);
         model = (DefaultTableModel) jTable1.getModel();
         jTable1.setRowHeight(30);
         jTable1.setShowGrid(true);
@@ -243,21 +248,19 @@ public class Purchase_Details extends javax.swing.JFrame {
         rowIndex = jTable1.getSelectedRow();
         jTextField2.setText(model.getValueAt(rowIndex, 0).toString());
         jTextField3.setText(model.getValueAt(rowIndex, 10).toString());
-        if (model.getValueAt(rowIndex, 11) == null) {
-            jTextField1.setText("Pending");
-        } else {
-            jTextField1.setText(model.getValueAt(rowIndex, 11).toString());
-        }
+        jTextField1.setText(model.getValueAt(rowIndex, 11).toString());
+
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         if (isEmpty()) {
             if (UpdateQuantity()) {
                 String UserName = user.getUName();
+                String ST = "Pending";
                 int PurchaseID = Integer.parseInt(model.getValueAt(rowIndex, 0).toString());
                 purchase.delete(PurchaseID);
                 jTable1.setModel(new DefaultTableModel(null, new Object[]{"PurchaseID", "UserID", "UserName", "ProductID", "ProductName", "Quantity", "Price", "Total", "PhoneNo", "Address", "OrderDate", "DeliveryDate", "DeliveryName", "Status"}));
-                purchase.getCartData(jTable1, UserName);
+                purchase.getPurchaseData(jTable1, UserName, ST);
                 clear();
             } else {
                 JOptionPane.showMessageDialog(this, "purchased cancellation was not Successful");
@@ -266,8 +269,21 @@ public class Purchase_Details extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
-        
+        if (!jTextField4.getText().equals("0.0")) {
+            try {
+                if (SendMail()) {
+                    String UserName = user.getUName();
+                    String Status = "Paid";
+                    purchase.update(UserName, Status);
+                    new User_Account().setVisible(true);
+                    this.dispose();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(Purchase_Details.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "You have not purchase any product yet", "Warning", 2);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void clear() {
@@ -276,7 +292,8 @@ public class Purchase_Details extends javax.swing.JFrame {
         jTextField1.setText("");
         jTable1.clearSelection();
         String UserName = user.getUName();
-        jTextField4.setText(String.valueOf(purchase.getSubTotalPrice(UserName)));
+        String ST = "Pending";
+        jTextField4.setText(String.valueOf(purchase.getSubTotalPrice(UserName, ST)));
     }
 
     private boolean UpdateQuantity() {
@@ -293,17 +310,15 @@ public class Purchase_Details extends javax.swing.JFrame {
         return true;
     }
 
-    private void SendMail() {
+    private boolean SendMail() throws SQLException {
+        String SubTotal = String.valueOf(jTextField4.getText());
         String UserName = user.getUName();
         String recipientEmail = user.getEmail(UserName);
-        String subject = "Payment";
-        String[][] sampleTableData = {
-            {"Column 1", "Column 2", "Column 3"},
-            {"Data 1", "Data 2", "Data 3"},
-            {"Data 4", "Data 5", "Data 6"}
-        };
-        EmailSender.sendEmailWithTable(recipientEmail, subject, sampleTableData);
+        String subject = "Payment Bill";
+        String ST = "Pending";
+        EmailSender.sendEmailWithTable(UserName, recipientEmail, subject, SubTotal, ST);
 
+        return true;
     }
 
     /**
@@ -336,7 +351,11 @@ public class Purchase_Details extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Purchase_Details().setVisible(true);
+                try {
+                    new Purchase_Details().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Purchase_Details.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

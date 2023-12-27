@@ -123,7 +123,7 @@ public class DeliveryDao {
         }
         return DeliveryID;
     }
-    
+
     public void update(int dID, String UserName, String Email, String PhoneNo, String Password) {
         String sql = "update delivery_team set UserName = ?, Email = ?, PhoneNo = ?, Password = ? where DeliveryID = ?";
         try {
@@ -176,6 +176,56 @@ public class DeliveryDao {
                 row[2] = rs.getString(3);
                 row[3] = rs.getString(4);
                 row[4] = rs.getString(5);
+                model.addRow(row);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DeliveryDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void setDeliveryDate(int PurchaseID, String DeliveryDate) {
+        String sql = "update purchasedetails set DeliveryDate = ? where PurchaseID = ?";
+        try {
+            Connection con = MyConnection.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, DeliveryDate);
+            ps.setInt(2, PurchaseID);
+            if (ps.executeUpdate() > 0) {
+                JOptionPane.showMessageDialog(null, "Delivery successfully updated");
+            } else {
+                JOptionPane.showMessageDialog(null, "Error");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DeliveryDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void getPurchaseData(JTable table, String Status, String DeliveryName, String DeliveryDate) {
+        String sql = "select * from purchasedetails where DeliveryName = ? and Status = ? and DeliveryDate <> ? order by PurchaseID asc";
+        try {
+            Connection con = MyConnection.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, DeliveryName);
+            ps.setString(2, Status);
+            ps.setString(3, DeliveryDate);
+            rs = ps.executeQuery();
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+            Object[] row = new Object[14];
+            while (rs.next()) {
+                row[0] = rs.getInt(1);
+                row[1] = rs.getInt(2);
+                row[2] = rs.getString(3);
+                row[3] = rs.getInt(4);
+                row[4] = rs.getString(5);
+                row[5] = rs.getInt(6);
+                row[6] = rs.getDouble(7);
+                row[7] = rs.getDouble(8);
+                row[8] = rs.getString(9);
+                row[9] = rs.getString(10);
+                row[10] = rs.getString(11);
+                row[11] = rs.getString(12);
+                row[12] = rs.getString(13);
+                row[13] = rs.getString(14);
                 model.addRow(row);
             }
         } catch (SQLException ex) {

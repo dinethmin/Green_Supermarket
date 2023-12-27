@@ -129,6 +129,5 @@ public class CategoryDao {
         } catch (SQLException ex) {
             Logger.getLogger(CategoryDao.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 }

@@ -225,6 +225,34 @@ public class UserDao {
         } catch (SQLException ex) {
             Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
+    
+    public void getPurchaseDetailsData(JTable table, String UserName, String Status) {
+        String sql = "select PurchaseID, ProductID, ProductName, Quantity, Price, total, OrderDate, DeliveryDate, DeliveryName, Status from purchasedetails where UserName = ? and Status = ? order by PurchaseID asc";
+        try {
+            Connection con = MyConnection.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, UserName);
+            ps.setString(2, Status);
+            rs = ps.executeQuery();
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+            Object[] row = new Object[10];
+            while (rs.next()) {
+                row[0] = rs.getInt(1);
+                row[1] = rs.getInt(2);
+                row[2] = rs.getString(3);
+                row[3] = rs.getInt(4);
+                row[4] = rs.getDouble(5);
+                row[5] = rs.getDouble(6);
+                row[6] = rs.getString(7);
+                row[7] = rs.getString(8);
+                row[8] = rs.getString(9);
+                row[9] = rs.getString(10);
+                model.addRow(row);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
 }

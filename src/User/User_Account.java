@@ -7,7 +7,12 @@ package User;
 
 import Dao.UserDao;
 import green_supermarket.Home;
+import java.awt.Color;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -18,14 +23,12 @@ public class User_Account extends javax.swing.JFrame {
     /**
      * Creates new form User_Account
      */
-    
+    DefaultTableModel model = new DefaultTableModel();
     UserDao user = new UserDao();
     
     public User_Account() {
         initComponents();
-        init();
-        
-        
+        init(); 
     }
 
     /**
@@ -150,11 +153,11 @@ public class User_Account extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Product ID", "Product Name", "Category", "Quantity", "Price", "Total", "Order Date", "Delivary Date", "Delivery Name", "Status"
+                "Purchase ID", "Product ID", "Product Name", "Quantity", "Price", "Total", "Order Date", "Delivary Date", "Delivery Name", "Status"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Double.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Double.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false, false, false, false, false
@@ -170,7 +173,7 @@ public class User_Account extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(2).setPreferredWidth(120);
         }
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 120, 800, 520));
@@ -200,6 +203,18 @@ public class User_Account extends javax.swing.JFrame {
 
     public void init(){
         userWelcome.setText("Welcome "+user.getUName());
+        PurchaseTable();
+    }
+    
+     private void PurchaseTable() {
+        String UserName = user.getUName();
+        String ST = "Paid";
+        user.getPurchaseDetailsData(jTable1, UserName, ST);
+        model = (DefaultTableModel) jTable1.getModel();
+        jTable1.setRowHeight(30);
+        jTable1.setShowGrid(true);
+        jTable1.setGridColor(Color.BLACK);
+        jTable1.setBackground(Color.WHITE);
     }
     
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -224,7 +239,11 @@ public class User_Account extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4MouseClicked
 
     private void jButton6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseClicked
-        new Purchase_Details().setVisible(true);
+        try {
+            new Purchase_Details().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(User_Account.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.dispose();
     }//GEN-LAST:event_jButton6MouseClicked
 
