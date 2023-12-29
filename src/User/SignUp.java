@@ -6,7 +6,6 @@
 package User;
 
 import Dao.UserDao;
-import green_supermarket.Home;
 import java.awt.Color;
 import javax.swing.JOptionPane;
 
@@ -41,7 +40,6 @@ public class SignUp extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -85,17 +83,6 @@ public class SignUp extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(102, 255, 102));
         jLabel3.setText("Sign Up");
         jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 20, 150, 50));
-
-        jButton2.setBackground(new java.awt.Color(0, 102, 102));
-        jButton2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/home.png"))); // NOI18N
-        jButton2.setToolTipText("");
-        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton2MouseClicked(evt);
-            }
-        });
-        jPanel2.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 20, 70, 50));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1030, 90));
 
@@ -323,11 +310,6 @@ public class SignUp extends javax.swing.JFrame {
         return true;
     }
 
-    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
-        new Home().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jButton2MouseClicked
-
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
@@ -361,7 +343,6 @@ public class SignUp extends javax.swing.JFrame {
             } else {
                 JOptionPane.showMessageDialog(this, "This Email address is already exists", "Warning", 2);
             }
-
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -468,7 +449,6 @@ public class SignUp extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox1;

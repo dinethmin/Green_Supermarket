@@ -183,6 +183,22 @@ public class UserDao {
             Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public void updatePassword(String UserName, String Email, String Password) {
+        String sql = "update user set Password = ? where UserName = ? and Email = ?";
+        try {
+            Connection con = MyConnection.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, Password);
+            ps.setString(2, UserName);
+            ps.setString(3, Email);
+            if (ps.executeUpdate() > 0) {
+                JOptionPane.showMessageDialog(null, "Password successfully updated");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     public void delete(int uID) {
         int x = JOptionPane.showConfirmDialog(null, "Are you sure to delete this account?", "Delete Account", JOptionPane.YES_NO_OPTION, 0);
