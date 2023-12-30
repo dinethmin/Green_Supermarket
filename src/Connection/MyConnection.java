@@ -7,9 +7,9 @@ import javax.swing.JOptionPane;
 
 public class MyConnection {
     
-    public static final String username = "root";
-    public static final String password = "1010";
-    public static final String url = "jdbc:mysql://localhost:3306/Green_Supermarket";
+    public static final String username = "avnadmin";
+    public static final String password = "AVNS_SAamzfMBhAbouv5GD4v";
+    public static final String url = "jdbc:mysql://mysql-2d7a96e2-reoakio-7b0f.a.aivencloud.com:11430/Green_Supermarket";
     public static Connection con = null;
     
     public static Connection getConnection() throws SQLException{
