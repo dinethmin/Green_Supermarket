@@ -7,6 +7,7 @@ package Admin;
 
 import Dao.DeliveryDao;
 import java.awt.Color;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -63,6 +64,7 @@ public class Add_Delivery_Team extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1030, 640));
         setMinimumSize(new java.awt.Dimension(1030, 640));
+        setUndecorated(true);
 
         jPanel1.setBackground(new java.awt.Color(231, 255, 206));
         jPanel1.setMinimumSize(new java.awt.Dimension(1030, 640));
