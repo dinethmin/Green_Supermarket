@@ -26,7 +26,7 @@ public class EmailSender {
 
     public static void sendEmailWithTable(String UserName, String recipientEmail, String subject, String SubTotal, String Status) throws SQLException {
         String senderEmail = "greensupermarketonline@gmail.com";
-        String appSpecificPassword = "qzautvytkowxiqjo";
+        String appSpecificPassword = "";
 
         PreparedStatement ps;
         Statement st;
